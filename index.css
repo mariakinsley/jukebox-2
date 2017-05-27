@@ -1,0 +1,11 @@
+body {
+    background-color: pink;
+}
+#buttons {
+    margin-right: 200px;
+    /*color: #ffffff;*/
+    text-align: center;
+}
+#buttons i {
+    margin-right: 25px;
+}
