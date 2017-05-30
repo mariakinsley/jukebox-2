@@ -1,72 +1,65 @@
 
-SC.initialize({client_id:"fd4e76fc67798bfa742089ed619084a6"
+
+var play=document.querySelector("#play");
+var pause=document.querySelector("#pause");
+var cover=document.querySelector("#coverArt");
+var titleGo=document.querySelector("#songTitle");
+var artistGo=document.querySelector("#artist");
+
+SC.initialize({
+  client_id: 'fd4e76fc67798bfa742089ed619084a6'
 });
-// SC.get("/tracks/269161148").then(function(response) {
-//
-//  console.log('FIRST',response); });
 
-var backward = document.getElementById ("backward");
-var forward= document.getElementById ("forward");
-var play = document.getElementById ("play");
-var pause= document.getElementById ("pause");
-var stop = document.getElementById("stop");
-var audio = document.getElementById("audio");
-var i = 0 ;
-var searchbtn =document.querySelector("#search");
-var search = document.querySelector("#name");
-var stream;
+SC.get("/tracks/207534343").then(function(response) {console.log(response);
+});
 
-// SC.stream('/tracks/310802260').then(function(player){
-//   player.play();
-// });
+// defines the Jukebox object
 function Jukebox(){
-  this.currentSong 
-  this.list = [310802260, 310802260];
+// the code for what happens when you create a Jukebox object
+// goes here
+  this.player = SC.stream("/tracks/207534343");
 }
-Jukebox.prototype.play = function () {
-  SC.stream('/tracks/310802260').then(function(player){
-    stream = player ;
-    player.play();
-  });
-};
-Jukebox.pause.prototype.pause = function () {
-stream.pause();
-};
-// addEventlistener
-// ======================================
-Jukebox.prototype.play = function () {
-    cloudsong.then(function(player){
-    player.play();
-    player.on("finish", function(){
-      player.pause();
-      cloudsong.currentTime = 0;
-      pauseButton.style.color = "#ff4f5a";
-      playButton.style.color = "#2d2d2d";
-      player.play();
-    });
-  });
+
+var jukebox = new Jukebox();
+
+
+SC.stream('track').then(function(player){
+  this.player.play();
+});
+
+// defines the Jukebox prototype object
+Jukebox.prototype.play = function(){
+  this.player.then(function(response){
+  response.play();
+});
 };
 
-Jukebox.prototype.pause = function () {
-    cloudsong.then(function(player){
-    player.pause();
+Jukebox.prototype.pause = function(){
+  this.player.then(function(response){
+    response.pause();
   });
 };
 
 
-var jukebox = new Jukebox(songs);
-
-
-playButton.addEventListener("click", function(event){
+// adds an event listener for when you click the play button
+// preventDefault prevents anchor tag going to next page
+play.addEventListener("click", function(event){
   event.preventDefault();
   jukebox.play();
-  playButton.style.color = "#ff4f5a";
-  pauseButton.style.color = "#2d2d2d";
+  SC.get("/tracks/39646304").then(function(response){
+    titleGo.innerHTML = response.title;
+    titleGo.setAttribute("href", response.permalink_url);
+    artistGo.innerHTML = response.user.username;
+    artistGo.setAttribute("href", response.user.permalink_url);
+    document.querySelector("#songTitle").setAttribute("href", response.title);
+    document.querySelector("#artist").setAttribute("href", response.user.permalink_url);
+    document.getElementById("genre").innerHTML = "Genre: " + response.genre;
+    document.getElementById("coverArt").src = response.artwork_url;
+    document.getElementById("releaseDate").innerHTML = "Release Date: " + response.release_month + '/' + response.release_day + '/'+ response.release_year;
+  });
 });
 
-pauseButton.addEventListener("click", function(event) {
+pause.addEventListener("click", function(event){
   event.preventDefault();
   jukebox.pause();
-  pauseButton.style.color = "#ff4f5a";
-  playButton.style.color = "#2d2d2d";
 });

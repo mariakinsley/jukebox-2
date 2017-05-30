@@ -1,11 +1,21 @@
 body {
+
     background-color: pink;
 }
 #buttons {
     margin-right: 200px;
-    /*color: #ffffff;*/
+
     text-align: center;
 }
-#buttons i {
-    margin-right: 25px;
+#buttons {
+    margin-right: 45px;
+
+}
+#audiobuttons{
+  font-size: 40px;
+
+}
+.main-box{
+  padding-top: 200px;
+  text-align: center;
 }
